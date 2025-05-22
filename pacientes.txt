@@ -1,0 +1,2 @@
+1|Lucas Garcia|123456789|12/03/2000|22/05/2025 12:19|Sim|Não|Sim|Hemograma Completo|Em espera|Em espera|Em espera
+2|Maria|15416516516|31/05/1950|22/05/2025 12:19|Sim|Sim|Sim|Exame de Glicemia|Em espera|Em espera|Em espera
