@@ -1,0 +1,41 @@
+package dasa.funcionarios;
+
+/**
+ * Classe específica para Técnicos em Laboratório
+ */
+public class TecnicoLaboratorio extends Funcionario {
+    private String crbm;
+
+    // Construtor padrão
+    public TecnicoLaboratorio() {
+        super();
+    }
+
+    // Construtor com parâmetros
+    public TecnicoLaboratorio(String nome, String crbm) {
+        super(nome, crbm);
+        this.crbm = crbm;
+    }
+
+    // Getter e Setter específicos
+    public String getCrbm() {
+        return crbm;
+    }
+
+    public void setCrbm(String crbm) {
+        this.crbm = crbm;
+        this.registro = crbm; // Mantém sincronizado com a classe pai
+    }
+
+    // Sobrescrita do metodo apresentar (Polimorfismo)
+    @Override
+    public void apresentar() {
+        System.out.println("CRBM: " + crbm);
+        System.out.println("\tNome do Técnico: " + nome);
+    }
+
+    // Metodo específico do técnico
+    public void acessarSistema() {
+        System.out.println("Olá, " + nome + ", seja bem vindo ao nosso sistema!");
+    }
+}
