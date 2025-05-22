@@ -1,6 +1,7 @@
 package dasa.sistema;
 
 import dasa.funcionarios.TecnicoLaboratorio;
+import dasa.funcionarios.Enfermeiro;
 import dasa.modelo.Exame;
 import dasa.modelo.Paciente;
 import java.util.*;
@@ -10,11 +11,13 @@ import java.util.*;
  */
 public class SistemaLaboratorio {
     private static List<TecnicoLaboratorio> tecnicos;
+    private static List<Enfermeiro> enfermeiros;
     private static Scanner scanner;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         inicializarTecnicos();
+        inicializarEnfermeiros();
 
         try {
             exibirBoasVindas();
@@ -41,6 +44,25 @@ public class SistemaLaboratorio {
         tecnicos.add(new TecnicoLaboratorio("João Silva", "12345"));
         tecnicos.add(new TecnicoLaboratorio("Maria Santos", "67890"));
         tecnicos.add(new TecnicoLaboratorio("Pedro Oliveira", "11223"));
+    }
+
+    /**
+     * Inicializa a lista com 6 enfermeiros pré-definidos (2 para cada especialidade)
+     */
+    private static void inicializarEnfermeiros() {
+        enfermeiros = new ArrayList<>();
+
+        // Enfermeiros especializados em Hemograma Completo
+        enfermeiros.add(new Enfermeiro("Ana Carolina Silva", "741321", "Hemograma Completo"));
+        enfermeiros.add(new Enfermeiro("Roberto Fernandes", "741322", "Hemograma Completo"));
+
+        // Enfermeiros especializados em Exame de Urina
+        enfermeiros.add(new Enfermeiro("Mariana Costa", "852431", "Exame de Urina"));
+        enfermeiros.add(new Enfermeiro("Carlos Eduardo", "852432", "Exame de Urina"));
+
+        // Enfermeiros especializados em Exame de Glicemia
+        enfermeiros.add(new Enfermeiro("Juliana Santos", "963541", "Exame de Glicemia"));
+        enfermeiros.add(new Enfermeiro("Fernando Lima", "963542", "Exame de Glicemia"));
     }
 
     private static void exibirBoasVindas() {
@@ -301,6 +323,57 @@ public class SistemaLaboratorio {
     }
 
     /**
+     * Menu da Enfermaria
+     */
+    private static void menuEnfermaria() {
+        while (true) {
+            try {
+                System.out.println();
+                System.out.println("=== ENFERMARIA ===");
+                System.out.println("1 - Listar todos os Enfermeiros");
+                System.out.println("2 - Exames feitos por enfermeiro específico");
+                System.out.println("3 - Voltar");
+                System.out.print("Opção: ");
+
+                int opcao = scanner.nextInt();
+                scanner.nextLine(); // Consome a quebra de linha
+
+                switch (opcao) {
+                    case 1:
+                        listarEnfermeiros();
+                        break;
+                    case 2:
+                        System.out.println("Funcionalidade em desenvolvimento...");
+                        break;
+                    case 3:
+                        return; // Volta ao menu anterior
+                    default:
+                        System.out.println("ERRO: Opção inválida! Digite um número de 1 a 3.");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("ERRO: Digite apenas números!");
+                scanner.nextLine(); // Limpa o buffer do scanner
+            } catch (Exception e) {
+                System.out.println("ERRO: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Lista todos os enfermeiros cadastrados
+     */
+    private static void listarEnfermeiros() {
+        System.out.println();
+        System.out.println("=== TODOS OS ENFERMEIROS CADASTRADOS ===");
+
+        for (Enfermeiro enfermeiro : enfermeiros) {
+            enfermeiro.apresentar();
+            System.out.println();
+        }
+    }
+
+    /**
      * Exibe o menu principal e processa as opções
      * @param tecnico Técnico logado no sistema
      */
@@ -326,7 +399,7 @@ public class SistemaLaboratorio {
                         System.out.println("Acessando Almoxarifado...");
                         break;
                     case 3:
-                        System.out.println("Acessando Enfermaria...");
+                        menuEnfermaria();
                         break;
                     case 4:
                         System.out.println();

@@ -31,7 +31,7 @@ public class TecnicoLaboratorio extends Funcionario {
     @Override
     public void apresentar() {
         System.out.println("CRBM: " + crbm);
-        System.out.println("\tNome do Técnico: " + nome);
+        System.out.println("\tNome do(a) Técnico(a): " + nome);
     }
 
     // Metodo específico do técnico
