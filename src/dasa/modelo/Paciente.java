@@ -285,4 +285,21 @@ public class Paciente {
 
         return pacientesFiltrados;
     }
+
+    /**
+     * Filtra pacientes por enfermeiro responsável
+     */
+    public static List<Paciente> filtrarPorEnfermeiroResponsavel(String enfermeiroInfo) {
+        List<Paciente> todosPacientes = carregarPacientes();
+        List<Paciente> pacientesFiltrados = new ArrayList<>();
+
+        for (Paciente paciente : todosPacientes) {
+            if (paciente.getEnfermeiroResponsavel().contains(enfermeiroInfo) &&
+                    paciente.getStatus().equals("Atendido")) {
+                pacientesFiltrados.add(paciente);
+            }
+        }
+
+        return pacientesFiltrados;
+    }
 }

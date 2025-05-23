@@ -2,12 +2,7 @@ package dasa.sistema;
 
 import dasa.funcionarios.TecnicoLaboratorio;
 import dasa.funcionarios.Enfermeiro;
-import dasa.modelo.Exame;
-import dasa.modelo.Paciente;
-import dasa.modelo.Estoque;
-import dasa.modelo.Insumo;
-import dasa.modelo.ItemCesta;
-import dasa.modelo.HistoricoRetirada;
+import dasa.modelo.*;
 import java.util.*;
 
 /**
@@ -711,7 +706,7 @@ public class SistemaLaboratorio {
                         listarEnfermeiros();
                         break;
                     case 2:
-                        System.out.println("Funcionalidade em desenvolvimento...");
+                        examesPorEnfermeiroEspecifico();
                         break;
                     case 3:
                         return; // Volta ao menu anterior
@@ -739,6 +734,121 @@ public class SistemaLaboratorio {
             enfermeiro.apresentar();
             System.out.println();
         }
+    }
+
+    /**
+     * Exibe exames realizados por enfermeiro específico
+     */
+    private static void examesPorEnfermeiroEspecifico() {
+        try {
+            // Verifica se há pacientes atendidos
+            List<Paciente> pacientesAtendidos = Paciente.filtrarPorStatus("Atendido");
+
+            if (pacientesAtendidos.isEmpty()) {
+                System.out.println("Não há pacientes com status 'Atendido' no sistema.");
+                return;
+            }
+
+            // Busca enfermeiros que já atenderam pacientes
+            List<Enfermeiro> enfermeirosQueAtenderam = buscarEnfermeirosQueAtenderam();
+
+            if (enfermeirosQueAtenderam.isEmpty()) {
+                System.out.println("Nenhum enfermeiro atendeu pacientes ainda.");
+                return;
+            }
+
+            // Exibe enfermeiros que já atenderam
+            System.out.println();
+            System.out.println("=== ENFERMEIROS QUE JÁ ATENDERAM PACIENTES ===");
+            for (Enfermeiro enfermeiro : enfermeirosQueAtenderam) {
+                enfermeiro.apresentar();
+                System.out.println();
+            }
+
+            // Solicita COREN do enfermeiro
+            System.out.print("Digite o COREN do enfermeiro que gostaria de verificar exames: ");
+            String corenBusca = scanner.nextLine().trim();
+
+            // Verifica se o COREN é válido e se o enfermeiro atendeu pacientes
+            Enfermeiro enfermeiroSelecionado = null;
+            for (Enfermeiro enfermeiro : enfermeirosQueAtenderam) {
+                if (enfermeiro.getCoren().equals(corenBusca)) {
+                    enfermeiroSelecionado = enfermeiro;
+                    break;
+                }
+            }
+
+            if (enfermeiroSelecionado == null) {
+                System.out.println("ERRO: COREN inválido ou enfermeiro não atendeu nenhum paciente!");
+                return;
+            }
+
+            // Busca pacientes atendidos por este enfermeiro
+            List<Paciente> pacientesDoEnfermeiro = Paciente.filtrarPorEnfermeiroResponsavel(corenBusca);
+
+            if (pacientesDoEnfermeiro.isEmpty()) {
+                System.out.println("Este enfermeiro não atendeu nenhum paciente ainda.");
+            } else {
+                System.out.println();
+                System.out.println("=== EXAMES REALIZADOS POR " + enfermeiroSelecionado.getNome().toUpperCase() + " ===");
+
+                for (Paciente paciente : pacientesDoEnfermeiro) {
+                    exibirDadosPacienteAtendido(paciente);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca enfermeiros que já atenderam pelo menos um paciente
+     */
+    private static List<Enfermeiro> buscarEnfermeirosQueAtenderam() {
+        List<Enfermeiro> enfermeirosQueAtenderam = new ArrayList<>();
+        List<Paciente> pacientesAtendidos = Paciente.filtrarPorStatus("Atendido");
+
+        for (Enfermeiro enfermeiro : enfermeiros) {
+            // Verifica se este enfermeiro atendeu algum paciente
+            for (Paciente paciente : pacientesAtendidos) {
+                if (paciente.getEnfermeiroResponsavel().contains(enfermeiro.getCoren())) {
+                    // Adiciona o enfermeiro à lista se ainda não estiver
+                    boolean jaAdicionado = false;
+                    for (Enfermeiro e : enfermeirosQueAtenderam) {
+                        if (e.getCoren().equals(enfermeiro.getCoren())) {
+                            jaAdicionado = true;
+                            break;
+                        }
+                    }
+                    if (!jaAdicionado) {
+                        enfermeirosQueAtenderam.add(enfermeiro);
+                    }
+                    break; // Já encontrou pelo menos um paciente para este enfermeiro
+                }
+            }
+        }
+
+        return enfermeirosQueAtenderam;
+    }
+
+    /**
+     * Exibe dados de um paciente atendido com formato específico
+     */
+    private static void exibirDadosPacienteAtendido(Paciente paciente) {
+        System.out.println("ID: #" + paciente.getId());
+        System.out.println("Status: " + paciente.getStatus());
+        System.out.println("\tNome Completo: " + paciente.getNomeCompleto());
+        System.out.println("\tCPF: " + paciente.getCpf());
+        System.out.println("\tData Nascimento: " + paciente.getDataNascimento());
+        System.out.println("\tConvenio: " + paciente.getConvenio());
+        System.out.println("\tPreferencial: " + paciente.getPreferencial());
+        System.out.println("\tJejum (min. 8 horas): " + paciente.getJejum());
+        System.out.println("\tExame: " + paciente.getExame());
+        System.out.println("\tData de Realização do Exame: " + paciente.getDataExame());
+        System.out.println("\tEnfermeiro Responsável: " + paciente.getEnfermeiroResponsavel());
+        System.out.println("\tResponsável Coleta de Insumos: " + paciente.getResponsavelColeta());
+        System.out.println("===============================================");
     }
 
     /**
