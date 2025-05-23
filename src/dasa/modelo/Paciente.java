@@ -245,4 +245,44 @@ public class Paciente {
     public void setResponsavelColeta(String responsavelColeta) {
         this.responsavelColeta = responsavelColeta;
     }
+
+    /**
+     * Atualiza um paciente específico no arquivo
+     */
+    public static void atualizarPacienteNoArquivo(Paciente pacienteAtualizado) {
+        List<Paciente> todosPacientes = carregarPacientes();
+
+        // Encontra e atualiza o paciente
+        for (int i = 0; i < todosPacientes.size(); i++) {
+            if (todosPacientes.get(i).getId() == pacienteAtualizado.getId()) {
+                todosPacientes.set(i, pacienteAtualizado);
+                break;
+            }
+        }
+
+        // Reescreve o arquivo com todos os pacientes atualizados
+        try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_PACIENTES))) {
+            for (Paciente paciente : todosPacientes) {
+                writer.println(paciente.paraStringArquivo());
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao atualizar paciente: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Filtra pacientes por status
+     */
+    public static List<Paciente> filtrarPorStatus(String status) {
+        List<Paciente> todosPacientes = carregarPacientes();
+        List<Paciente> pacientesFiltrados = new ArrayList<>();
+
+        for (Paciente paciente : todosPacientes) {
+            if (paciente.getStatus().equals(status)) {
+                pacientesFiltrados.add(paciente);
+            }
+        }
+
+        return pacientesFiltrados;
+    }
 }

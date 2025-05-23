@@ -1,0 +1,10 @@
+ID: #1
+Data Retirada (23/05/2025 17:19)
+	Paciente: Lucas Garcia
+	Exame: Hemograma Completo
+	2 - Tubo de Coleta Pequeno
+	1 - Agulha 3mm
+	1 - Seringa 20ml
+	Insumos coletados por João Silva - 12345
+	Enfermeiro responsável pelo atendimento: Roberto Fernandes - 741322
+======================================================================

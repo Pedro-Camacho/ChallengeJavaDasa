@@ -1,20 +1,16 @@
 package dasa.modelo;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Classe para representar materiais/insumos do laboratório
+ * Classe para representar insumos do laboratório
  */
-public class Material {
+public class Insumo {
     private int id;
     private String nome;
     private int codigoBarras;
     private int quantidadeDisponivel;
     private int quantidadeMaxima;
 
-    public Material(int id, String nome, int codigoBarras, int quantidadeDisponivel, int quantidadeMaxima) {
+    public Insumo(int id, String nome, int codigoBarras, int quantidadeDisponivel, int quantidadeMaxima) {
         this.id = id;
         this.nome = nome;
         this.codigoBarras = codigoBarras;
@@ -86,10 +82,10 @@ public class Material {
     }
 
     /**
-     * Exibe os dados do material formatados
+     * Exibe os dados do insumo formatados
      */
     public void exibirDados() {
-        System.out.println("ID material: " + id + " - nome material: " + nome);
+        System.out.println("ID insumo: " + id + " - nome insumo: " + nome);
         System.out.println("\tCódigo de Barras Produto: " + codigoBarras);
         System.out.println("\tQuantidade Disponível: " + quantidadeDisponivel);
         System.out.println("\tQuantidade Máxima: " + quantidadeMaxima);
@@ -97,20 +93,20 @@ public class Material {
     }
 
     /**
-     * Converte o material para string para salvar no arquivo
+     * Converte o insumo para string para salvar no arquivo
      */
     public String paraStringArquivo() {
         return id + "|" + nome + "|" + codigoBarras + "|" + quantidadeDisponivel + "|" + quantidadeMaxima;
     }
 
     /**
-     * Cria um material a partir de uma string do arquivo
+     * Cria um insumo a partir de uma string do arquivo
      */
-    public static Material fromStringArquivo(String linha) {
+    public static Insumo fromStringArquivo(String linha) {
         try {
             String[] dados = linha.split("\\|");
             if (dados.length == 5) {
-                return new Material(
+                return new Insumo(
                         Integer.parseInt(dados[0]), // id
                         dados[1], // nome
                         Integer.parseInt(dados[2]), // codigoBarras
