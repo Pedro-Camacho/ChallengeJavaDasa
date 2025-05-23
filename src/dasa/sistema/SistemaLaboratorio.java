@@ -4,6 +4,8 @@ import dasa.funcionarios.TecnicoLaboratorio;
 import dasa.funcionarios.Enfermeiro;
 import dasa.modelo.Exame;
 import dasa.modelo.Paciente;
+import dasa.modelo.Estoque;
+import dasa.modelo.Material;
 import java.util.*;
 
 /**
@@ -12,12 +14,14 @@ import java.util.*;
 public class SistemaLaboratorio {
     private static List<TecnicoLaboratorio> tecnicos;
     private static List<Enfermeiro> enfermeiros;
+    private static Estoque estoque;
     private static Scanner scanner;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         inicializarTecnicos();
         inicializarEnfermeiros();
+        estoque = new Estoque();
 
         try {
             exibirBoasVindas();
@@ -323,6 +327,124 @@ public class SistemaLaboratorio {
     }
 
     /**
+     * Menu do Almoxarifado
+     */
+    private static void menuAlmoxarifado() {
+        while (true) {
+            try {
+                System.out.println();
+                System.out.println("=== ALMOXARIFADO ===");
+                System.out.println("1 - Retirar insumos para exame");
+                System.out.println("2 - Verificar histórico de retirada de insumos");
+                System.out.println("3 - Verificar Estoque");
+                System.out.println("4 - Adicionar Estoque");
+                System.out.println("5 - Voltar");
+                System.out.print("Opção: ");
+
+                int opcao = scanner.nextInt();
+                scanner.nextLine(); // Consome a quebra de linha
+
+                switch (opcao) {
+                    case 1:
+                        System.out.println("Funcionalidade em desenvolvimento...");
+                        break;
+                    case 2:
+                        System.out.println("Funcionalidade em desenvolvimento...");
+                        break;
+                    case 3:
+                        verificarEstoque();
+                        break;
+                    case 4:
+                        adicionarEstoque();
+                        break;
+                    case 5:
+                        return; // Volta ao menu anterior
+                    default:
+                        System.out.println("ERRO: Opção inválida! Digite um número de 1 a 5.");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("ERRO: Digite apenas números!");
+                scanner.nextLine(); // Limpa o buffer do scanner
+            } catch (Exception e) {
+                System.out.println("ERRO: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Verifica e exibe todo o estoque de materiais
+     */
+    private static void verificarEstoque() {
+        estoque.exibirEstoque();
+    }
+
+    /**
+     * Adiciona quantidade ao estoque de materiais
+     */
+    private static void adicionarEstoque() {
+        try {
+            // Exibe todos os materiais disponíveis
+            estoque.exibirEstoque();
+
+            System.out.print("Digite o ID ou o código de barras: ");
+            int identificador = scanner.nextInt();
+            scanner.nextLine(); // Consome a quebra de linha
+
+            // Busca o material
+            Material material = estoque.buscarMaterial(identificador);
+            if (material == null) {
+                System.out.println("ERRO: ID ou Código de Barras inválido!");
+                return;
+            }
+
+            // Calcula quantidade máxima que pode ser adicionada
+            int quantidadeMaximaAdicao = estoque.calcularQuantidadeMaximaAdicao(identificador);
+
+            if (quantidadeMaximaAdicao <= 0) {
+                System.out.println("ERRO: Este material já está no estoque máximo!");
+                return;
+            }
+
+            System.out.print("Digite a quantidade que gostaria de adicionar: ");
+            int quantidadeAdicionar = scanner.nextInt();
+            scanner.nextLine(); // Consome a quebra de linha
+
+            // Validações
+            if (quantidadeAdicionar <= 0) {
+                System.out.println("ERRO: Quantidade deve ser maior que zero!");
+                return;
+            }
+
+            if (quantidadeAdicionar > quantidadeMaximaAdicao) {
+                System.out.println("ERRO: A quantidade disponível + quantidade adicionada não pode ultrapassar 2000!");
+                System.out.println("Quantidade máxima que pode ser adicionada: " + quantidadeMaximaAdicao);
+                return;
+            }
+
+            // Adiciona a quantidade
+            boolean sucesso = estoque.adicionarQuantidade(identificador, quantidadeAdicionar);
+
+            if (sucesso) {
+                // Busca novamente o material para obter os dados atualizados
+                material = estoque.buscarMaterial(identificador);
+                System.out.println();
+                System.out.println("✅ " + quantidadeAdicionar + " de " + material.getNome() +
+                        " adicionado com sucesso! Nova quantidade disponível deste material: " +
+                        material.getQuantidadeDisponivel());
+            } else {
+                System.out.println("ERRO: Não foi possível adicionar a quantidade ao estoque!");
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("ERRO: Digite apenas números!");
+            scanner.nextLine(); // Limpa o buffer
+        } catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+        }
+    }
+
+    /**
      * Menu da Enfermaria
      */
     private static void menuEnfermaria() {
@@ -396,7 +518,7 @@ public class SistemaLaboratorio {
                         menuRecepcao();
                         break;
                     case 2:
-                        System.out.println("Acessando Almoxarifado...");
+                        menuAlmoxarifado();
                         break;
                     case 3:
                         menuEnfermaria();
