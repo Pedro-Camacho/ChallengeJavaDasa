@@ -67,10 +67,16 @@ public class Paciente {
         }
     }
 
+    /**
+     * Obtém o próximo ID disponível
+     */
     private static synchronized int obterProximoId() {
         return contadorId++;
     }
 
+    /**
+     * Salva um paciente no arquivo
+     */
     public void salvarNoArquivo() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_PACIENTES, true))) {
             writer.println(this.paraStringArquivo());
@@ -79,6 +85,9 @@ public class Paciente {
         }
     }
 
+    /**
+     * Carrega todos os pacientes do arquivo
+     */
     public static List<Paciente> carregarPacientes() {
         List<Paciente> pacientes = new ArrayList<>();
 
@@ -101,6 +110,9 @@ public class Paciente {
         return pacientes;
     }
 
+    /**
+     * Converte o paciente para string para salvar no arquivo
+     */
     private String paraStringArquivo() {
         return id + "|" + nomeCompleto + "|" + cpf + "|" + dataNascimento + "|" +
                 dataExame + "|" + convenio + "|" + preferencial + "|" + jejum + "|" +
@@ -155,96 +167,51 @@ public class Paciente {
     }
 
     // Getters e Setters
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
+    public String getNomeCompleto() { return nomeCompleto; }
 
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
-    }
-    public String getCpf() {
-        return cpf;
-    }
+    public void setNomeCompleto(String nomeCompleto) { this.nomeCompleto = nomeCompleto; }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+    public String getCpf() { return cpf; }
 
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
+    public void setCpf(String cpf) { this.cpf = cpf; }
 
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
+    public String getDataNascimento() { return dataNascimento; }
 
-    public String getDataExame() {
-        return dataExame;
-    }
+    public void setDataNascimento(String dataNascimento) { this.dataNascimento = dataNascimento; }
 
-    public void setDataExame(String dataExame) {
-        this.dataExame = dataExame;
-    }
+    public String getDataExame() { return dataExame; }
 
-    public String getConvenio() {
-        return convenio;
-    }
+    public void setDataExame(String dataExame) { this.dataExame = dataExame; }
 
-    public void setConvenio(String convenio) {
-        this.convenio = convenio;
-    }
+    public String getConvenio() { return convenio; }
 
-    public String getPreferencial() {
-        return preferencial;
-    }
+    public void setConvenio(String convenio) { this.convenio = convenio; }
 
-    public void setPreferencial(String preferencial) {
-        this.preferencial = preferencial;
-    }
+    public String getPreferencial() { return preferencial; }
 
-    public String getJejum() {
-        return jejum;
-    }
+    public void setPreferencial(String preferencial) { this.preferencial = preferencial; }
 
-    public void setJejum(String jejum) {
-        this.jejum = jejum;
-    }
+    public String getJejum() { return jejum; }
 
-    public String getExame() {
-        return exame;
-    }
+    public void setJejum(String jejum) { this.jejum = jejum; }
 
-    public void setExame(String exame) {
-        this.exame = exame;
-    }
+    public String getExame() { return exame; }
 
-    public String getStatus() {
-        return status;
-    }
+    public void setExame(String exame) { this.exame = exame; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public String getStatus() { return status; }
 
-    public String getEnfermeiroResponsavel() {
-        return enfermeiroResponsavel;
-    }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setEnfermeiroResponsavel(String enfermeiroResponsavel) {
-        this.enfermeiroResponsavel = enfermeiroResponsavel;
-    }
+    public String getEnfermeiroResponsavel() { return enfermeiroResponsavel; }
 
-    public String getResponsavelColeta() {
-        return responsavelColeta;
-    }
+    public void setEnfermeiroResponsavel(String enfermeiroResponsavel) { this.enfermeiroResponsavel = enfermeiroResponsavel; }
 
-    public void setResponsavelColeta(String responsavelColeta) {
-        this.responsavelColeta = responsavelColeta;
-    }
+    public String getResponsavelColeta() { return responsavelColeta; }
+
+    public void setResponsavelColeta(String responsavelColeta) { this.responsavelColeta = responsavelColeta; }
 
     /**
      * Atualiza um paciente específico no arquivo

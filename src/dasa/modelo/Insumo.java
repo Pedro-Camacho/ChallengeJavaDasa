@@ -1,7 +1,7 @@
 package dasa.modelo;
 
 /**
- * Classe para representar insumos do laboratório
+ * Classe para representar materiais/insumos do laboratório
  */
 public class Insumo {
     private int id;
