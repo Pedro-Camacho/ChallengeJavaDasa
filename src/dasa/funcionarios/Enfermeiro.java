@@ -4,7 +4,7 @@ package dasa.funcionarios;
  * Classe específica para Enfermeiros
  */
 public class Enfermeiro extends Funcionario {
-    private String coren;
+    private int coren;
     private String especialidade;
 
     // Construtor padrão
@@ -13,20 +13,20 @@ public class Enfermeiro extends Funcionario {
     }
 
     // Construtor com parâmetros
-    public Enfermeiro(String nome, String coren, String especialidade) {
-        super(nome, coren);
+    public Enfermeiro(String nome, int coren, String especialidade) {
+        super(nome, String.valueOf(coren));
         this.coren = coren;
         this.especialidade = especialidade;
     }
 
     // Getters e Setters específicos
-    public String getCoren() {
+    public int getCoren() {
         return coren;
     }
 
-    public void setCoren(String coren) {
+    public void setCoren(int coren) {
         this.coren = coren;
-        this.registro = coren; // Mantém sincronizado com a classe pai
+        this.registro = String.valueOf(coren); // Mantém sincronizado com a classe pai
     }
 
     public String getEspecialidade() {
