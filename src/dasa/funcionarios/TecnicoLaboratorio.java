@@ -4,7 +4,7 @@ package dasa.funcionarios;
  * Classe específica para Técnicos em Laboratório
  */
 public class TecnicoLaboratorio extends Funcionario {
-    private String crbm;
+    private int crbm;
 
     // Construtor padrão
     public TecnicoLaboratorio() {
@@ -12,19 +12,19 @@ public class TecnicoLaboratorio extends Funcionario {
     }
 
     // Construtor com parâmetros
-    public TecnicoLaboratorio(String nome, String crbm) {
-        super(nome, crbm);
+    public TecnicoLaboratorio(String nome, int crbm) {
+        super(nome, String.valueOf(crbm));
         this.crbm = crbm;
     }
 
     // Getter e Setter específicos
-    public String getCrbm() {
+    public int getCrbm() {
         return crbm;
     }
 
-    public void setCrbm(String crbm) {
+    public void setCrbm(int crbm) {
         this.crbm = crbm;
-        this.registro = crbm; // Mantém sincronizado com a classe pai
+        this.registro = String.valueOf(crbm); // Mantém sincronizado com a classe pai
     }
 
     // Sobrescrita do metodo apresentar (Polimorfismo)

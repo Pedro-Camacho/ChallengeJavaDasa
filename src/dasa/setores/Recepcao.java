@@ -60,84 +60,23 @@ public class Recepcao {
             System.out.println();
             System.out.println("=== CADASTRAR PACIENTE ===");
 
-            // Coleta dos dados do paciente
-            System.out.print("Nome completo: ");
-            String nomeCompleto = scanner.nextLine().trim();
+            // Coleta e valida nome completo
+            String nomeCompleto = solicitarNomeCompleto();
 
-            System.out.print("CPF: ");
-            String cpf = scanner.nextLine().trim();
+            // CPF com validação
+            long cpf = solicitarCPF();
 
-            System.out.print("Data de Nascimento (dd/mm/aaaa): ");
-            String dataNascimento = scanner.nextLine().trim();
+            // Data de nascimento com validação
+            String dataNascimento = solicitarDataNascimento();
 
             // Convenio
-            String convenio = "";
-            while (true) {
-                try {
-                    System.out.print("Convênio (1 - Sim, 2 - Não): ");
-                    int opcaoConvenio = scanner.nextInt();
-                    scanner.nextLine();
-
-                    if (opcaoConvenio == 1) {
-                        convenio = "Sim";
-                        break;
-                    } else if (opcaoConvenio == 2) {
-                        convenio = "Não";
-                        break;
-                    } else {
-                        System.out.println("ERRO: Digite 1 para Sim ou 2 para Não!");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("ERRO: Digite apenas números!");
-                    scanner.nextLine();
-                }
-            }
+            boolean convenio = solicitarOpcaoBoolean("Convênio");
 
             // Preferencial
-            String preferencial = "";
-            while (true) {
-                try {
-                    System.out.print("Preferencial (1 - Sim, 2 - Não): ");
-                    int opcaoPreferencial = scanner.nextInt();
-                    scanner.nextLine();
-
-                    if (opcaoPreferencial == 1) {
-                        preferencial = "Sim";
-                        break;
-                    } else if (opcaoPreferencial == 2) {
-                        preferencial = "Não";
-                        break;
-                    } else {
-                        System.out.println("ERRO: Digite 1 para Sim ou 2 para Não!");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("ERRO: Digite apenas números!");
-                    scanner.nextLine();
-                }
-            }
+            boolean preferencial = solicitarOpcaoBoolean("Preferencial");
 
             // Jejum
-            String jejum = "";
-            while (true) {
-                try {
-                    System.out.print("Em Jejum (min. 8 horas) (1 - Sim, 2 - Não): ");
-                    int opcaoJejum = scanner.nextInt();
-                    scanner.nextLine();
-
-                    if (opcaoJejum == 1) {
-                        jejum = "Sim";
-                        break;
-                    } else if (opcaoJejum == 2) {
-                        jejum = "Não";
-                        break;
-                    } else {
-                        System.out.println("ERRO: Digite 1 para Sim ou 2 para Não!");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("ERRO: Digite apenas números!");
-                    scanner.nextLine();
-                }
-            }
+            boolean jejum = solicitarOpcaoBoolean("Em Jejum (min. 8 horas)");
 
             // Escolha do exame
             String exameEscolhido = adicionarExame();
@@ -156,6 +95,123 @@ public class Recepcao {
 
         } catch (Exception e) {
             System.out.println("ERRO ao cadastrar paciente: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Solicita e valida nome completo (apenas letras e espaços)
+     */
+    private String solicitarNomeCompleto() {
+        while (true) {
+            System.out.print("Nome completo: ");
+            String nome = scanner.nextLine().trim();
+
+            if (nome.isEmpty()) {
+                System.out.println("ERRO: Nome não pode estar vazio!");
+                continue;
+            }
+
+            if (validarNome(nome)) {
+                return nome;
+            } else {
+                System.out.println("ERRO: Nome deve conter apenas letras e espaços!");
+            }
+        }
+    }
+
+    /**
+     * Valida se o nome contém apenas letras e espaços
+     */
+    private boolean validarNome(String nome) {
+        return nome.matches("^[a-zA-ZÀ-ÿ\\u00f1\\u00d1\\s]+$");
+    }
+
+    /**
+     * Solicita e valida CPF
+     */
+    private long solicitarCPF() {
+        while (true) {
+            try {
+                System.out.print("CPF (apenas números - 11 dígitos): ");
+                long cpf = scanner.nextLong();
+                scanner.nextLine(); // Consome quebra de linha
+
+                if (Paciente.validarCPF(cpf)) {
+                    return cpf;
+                } else {
+                    System.out.println("ERRO: CPF deve ter exatamente 11 dígitos!");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("ERRO: Digite apenas números para o CPF!");
+                scanner.nextLine(); // Limpa buffer
+            }
+        }
+    }
+
+    /**
+     * Solicita e valida data de nascimento
+     */
+    private String solicitarDataNascimento() {
+        while (true) {
+            try {
+                System.out.print("Dia de nascimento (1-31): ");
+                int dia = scanner.nextInt();
+
+                System.out.print("Mês de nascimento (1-12): ");
+                int mes = scanner.nextInt();
+
+                System.out.print("Ano de nascimento (1900-2024): ");
+                int ano = scanner.nextInt();
+                scanner.nextLine(); // Consome quebra de linha
+
+                if (validarData(dia, mes, ano)) {
+                    return String.format("%02d/%02d/%04d", dia, mes, ano);
+                } else {
+                    System.out.println("ERRO: Data inválida! Verifique os valores informados.");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("ERRO: Digite apenas números para a data!");
+                scanner.nextLine(); // Limpa buffer
+            }
+        }
+    }
+
+    /**
+     * Valida data de nascimento
+     */
+    private boolean validarData(int dia, int mes, int ano) {
+        if (ano < 1900 || ano > 2024) return false;
+        if (mes < 1 || mes > 12) return false;
+        if (dia < 1 || dia > 31) return false;
+
+        // Validação básica de dias por mês
+        int[] diasPorMes = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return dia <= diasPorMes[mes - 1];
+    }
+
+    /**
+     * Solicita opção boolean (Sim/Não)
+     */
+    private boolean solicitarOpcaoBoolean(String campo) {
+        while (true) {
+            try {
+                System.out.print(campo + " (1 - Sim, 2 - Não): ");
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
+
+                if (opcao == 1) {
+                    return true;
+                } else if (opcao == 2) {
+                    return false;
+                } else {
+                    System.out.println("ERRO: Digite 1 para Sim ou 2 para Não!");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERRO: Digite apenas números!");
+                scanner.nextLine();
+            }
         }
     }
 

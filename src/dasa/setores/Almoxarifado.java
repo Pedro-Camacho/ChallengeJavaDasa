@@ -321,11 +321,14 @@ public class Almoxarifado {
             while (true) {
                 try {
                     System.out.print("Digite o COREN do enfermeiro responsável: ");
-                    String coren = scanner.nextLine().trim();
+                    String corenInput = scanner.nextLine().trim();
+
+                    // Converte para int
+                    int corenInt = Integer.parseInt(corenInput);
 
                     // Busca enfermeiro pelo COREN
                     for (Enfermeiro enfermeiro : enfermeirosEspecialidade) {
-                        if (enfermeiro.getCoren().equals(coren)) {
+                        if (enfermeiro.getCoren() == corenInt) {
                             return enfermeiro;
                         }
                     }

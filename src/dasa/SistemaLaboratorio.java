@@ -47,9 +47,9 @@ public class SistemaLaboratorio {
      */
     private static void inicializarTecnicos() {
         tecnicos = new ArrayList<>();
-        tecnicos.add(new TecnicoLaboratorio("João Silva", "12345"));
-        tecnicos.add(new TecnicoLaboratorio("Maria Santos", "67890"));
-        tecnicos.add(new TecnicoLaboratorio("Pedro Oliveira", "11223"));
+        tecnicos.add(new TecnicoLaboratorio("João Silva", 12345));
+        tecnicos.add(new TecnicoLaboratorio("Maria Santos", 67890));
+        tecnicos.add(new TecnicoLaboratorio("Pedro Oliveira", 11223));
     }
 
     /**
@@ -59,16 +59,16 @@ public class SistemaLaboratorio {
         enfermeiros = new ArrayList<>();
 
         // Enfermeiros especializados em Hemograma Completo
-        enfermeiros.add(new Enfermeiro("Ana Carolina Silva", "741321", "Hemograma Completo"));
-        enfermeiros.add(new Enfermeiro("Roberto Fernandes", "741322", "Hemograma Completo"));
+        enfermeiros.add(new Enfermeiro("Ana Carolina Silva", 741321, "Hemograma Completo"));
+        enfermeiros.add(new Enfermeiro("Roberto Fernandes", 741322, "Hemograma Completo"));
 
         // Enfermeiros especializados em Exame de Urina
-        enfermeiros.add(new Enfermeiro("Mariana Costa", "852431", "Exame de Urina"));
-        enfermeiros.add(new Enfermeiro("Carlos Eduardo", "852432", "Exame de Urina"));
+        enfermeiros.add(new Enfermeiro("Mariana Costa", 852431, "Exame de Urina"));
+        enfermeiros.add(new Enfermeiro("Carlos Eduardo", 852432, "Exame de Urina"));
 
         // Enfermeiros especializados em Exame de Glicemia
-        enfermeiros.add(new Enfermeiro("Juliana Santos", "963541", "Exame de Glicemia"));
-        enfermeiros.add(new Enfermeiro("Fernando Lima", "963542", "Exame de Glicemia"));
+        enfermeiros.add(new Enfermeiro("Juliana Santos", 963541, "Exame de Glicemia"));
+        enfermeiros.add(new Enfermeiro("Fernando Lima", 963542, "Exame de Glicemia"));
     }
 
     private static void exibirBoasVindas() {
@@ -105,7 +105,8 @@ public class SistemaLaboratorio {
 
                 // Busca o técnico pelo CRBM
                 for (TecnicoLaboratorio tecnico : tecnicos) {
-                    if (tecnico.getCrbm().equals(crbmInput)) {
+                    int crbmInt = Integer.parseInt(crbmInput);
+                    if (tecnico.getCrbm() == crbmInt) {
                         return tecnico;
                     }
                 }

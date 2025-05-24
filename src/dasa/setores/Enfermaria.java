@@ -103,7 +103,8 @@ public class Enfermaria {
             // Verifica se o COREN é válido e se o enfermeiro atendeu pacientes
             Enfermeiro enfermeiroSelecionado = null;
             for (Enfermeiro enfermeiro : enfermeirosQueAtenderam) {
-                if (enfermeiro.getCoren().equals(corenBusca)) {
+                int corenInt = Integer.parseInt(corenBusca);
+                if (enfermeiro.getCoren() == corenInt) {
                     enfermeiroSelecionado = enfermeiro;
                     break;
                 }
@@ -143,11 +144,11 @@ public class Enfermaria {
         for (Enfermeiro enfermeiro : enfermeiros) {
             // Verifica se este enfermeiro atendeu algum paciente
             for (Paciente paciente : pacientesAtendidos) {
-                if (paciente.getEnfermeiroResponsavel().contains(enfermeiro.getCoren())) {
+                if (paciente.getEnfermeiroResponsavel().contains(String.valueOf(enfermeiro.getCoren()))) {
                     // Adiciona o enfermeiro à lista se ainda não estiver
                     boolean jaAdicionado = false;
                     for (Enfermeiro e : enfermeirosQueAtenderam) {
-                        if (e.getCoren().equals(enfermeiro.getCoren())) {
+                        if (e.getCoren() == enfermeiro.getCoren()) {
                             jaAdicionado = true;
                             break;
                         }
@@ -172,9 +173,9 @@ public class Enfermaria {
         System.out.println("\tNome Completo: " + paciente.getNomeCompleto());
         System.out.println("\tCPF: " + paciente.getCpf());
         System.out.println("\tData Nascimento: " + paciente.getDataNascimento());
-        System.out.println("\tConvenio: " + paciente.getConvenio());
-        System.out.println("\tPreferencial: " + paciente.getPreferencial());
-        System.out.println("\tJejum (min. 8 horas): " + paciente.getJejum());
+        System.out.println("\tConvenio: " + (paciente.isConvenio() ? "Sim" : "Não"));
+        System.out.println("\tPreferencial: " + (paciente.isPreferencial() ? "Sim" : "Não"));
+        System.out.println("\tJejum (min. 8 horas): " + (paciente.isJejum() ? "Sim" : "Não"));
         System.out.println("\tExame: " + paciente.getExame());
         System.out.println("\tData de Realização do Exame: " + paciente.getDataExame());
         System.out.println("\tEnfermeiro Responsável: " + paciente.getEnfermeiroResponsavel());
